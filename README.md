@@ -26,5 +26,5 @@ Currently there are three options: _Sermons_, _Worship_, and _no playlist (i.e. 
 
 ## WIP:
 There are some additional changes I want to make to this project which I have listed below (as of March 17th, 2021):
-- [] Create a UI
-- [] Allow for multiple videos to be uploaded
+- [ ] Create a UI
+- [ ] Allow for multiple videos to be uploaded
