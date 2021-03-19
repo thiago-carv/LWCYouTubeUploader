@@ -1,8 +1,15 @@
 # LWCYouTubeUploader
 A command-line application that works specifically for **Living Word Church** (located in Union, NJ).
 
+### Disclamer!
+**Before running this application the user must run the following in their terminal:**
+```
+pip install -r requirements.txt
+```
+**The user will also be prompted to authenticate their Google account to the application.**
+
 ## How It Works:
-This is a fairly simple application that uses the **YouTube Data V3 API** to upload any video.
+This is a fairly simple application that uses the **YouTube Data API v3** to upload any video.
 This application does the following:
 * Titles the video
 * Adds a description
