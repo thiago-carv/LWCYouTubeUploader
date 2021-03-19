@@ -4,9 +4,7 @@ import pickle
 import google.auth.transport.requests
 import requests
 import google_auth_oauthlib.flow
-# import googleapiclient.discovery
 import googleapiclient.errors
-# from google_auth_oauthlib.flow import Flow, InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
@@ -15,15 +13,11 @@ def CreateRequest(clientSecretFile, apiName, apiVersion, *scopes):
     api_service_name = apiName
     api_version = apiVersion
     scopes = [scope for scope in scopes[0]]
-    # print(CLIENT_SECRET_FILE, API_SERVICE_NAME, API_VERSION, SCOPES, sep = ' | ')
-    # print(scopes)
 
     pickleFile = f'token_{api_service_name}_{api_version}.pickle'
-    # print(pickleFile)
 
     credentials = None
     request = google.auth.transport.requests.Request()
-    # print(request)
 
     if os.path.exists(pickleFile):
         with open(pickleFile, 'rb') as token:
@@ -33,7 +27,6 @@ def CreateRequest(clientSecretFile, apiName, apiVersion, *scopes):
         if credentials and credentials.expired and credentials.refresh_token:
             credentials.refresh(request)
         else:
-            # flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
             flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(client_secrets_file, scopes)
             credentials = flow.run_local_server()
 
@@ -42,7 +35,6 @@ def CreateRequest(clientSecretFile, apiName, apiVersion, *scopes):
 
     try:
         youtube = build(api_service_name, api_version, credentials = credentials)
-        # print('Video successfully uploaded to YouTube!')
         print("Uploading video to YouTube...")
         return youtube
     except Exception as e:
@@ -51,17 +43,13 @@ def CreateRequest(clientSecretFile, apiName, apiVersion, *scopes):
         return None
 
 def main():
-    # Disable OAuthlib's HTTPS verification when running locally.
-    # *DO NOT* leave this option enabled in production.
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-    # Confirms with the user if the directory is holding the proper files.
+    # Confirms with the user if directory is holding proper files.
     print("For this script to properly upload videos, please make sure the '/Upload' folder contains only one video file (.mp4) and one thumbnail file (.jpg).")
     answer = input("Would you like to continue (Y/N)? ")
     if answer.lower().startswith("n"):
         exit()
 
-    # YouTube Data V3 API variables.
+    # YouTube Data API v3 Auth variables.
     api_service_name = "youtube"
     api_version = "v3"
     client_secrets_file = "client_secret.json"
@@ -104,9 +92,6 @@ def main():
     # Add description file to variable and close.
     description = description_doc.read()
     description_doc.close()
-
-    # print(title)
-    # print(description)
 
     # Get credentials and create an API client
     request = CreateRequest(client_secrets_file, api_service_name, api_version, scopes)
