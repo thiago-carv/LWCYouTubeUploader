@@ -2,9 +2,9 @@
 A command-line application that works specifically for **Living Word Church** (located in Union, NJ).
 
 ### Disclamer!
-**Before running this application the user must run the following in their terminal:**
+**Before running this application for the first time the user must run the following in their terminal:**
 ```
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 **The user will also be prompted to authenticate their Google account to the application.**
 
