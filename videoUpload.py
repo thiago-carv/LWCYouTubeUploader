@@ -46,12 +46,12 @@ def CreateVideoData(path, playlistChoice, speaker):
     # Pulls the files
     dir_files = os.scandir(path)
     video_file_extension = ".mp4"
-    image_file_extension = ".jpg"
+    image_file_extension = ".png"
     for entry in dir_files:
         if entry.is_file():
             if video_file_extension in entry.name:
                 media_file = entry.name
-            if image_file_extension in entry.name:
+            elif image_file_extension in entry.name:
                 thumbnail_file = entry.name
     dir_files.close()
 
@@ -92,22 +92,25 @@ def main():
     ]
 
     while (True):
-        # Confirms with the user if directory is holding proper files.
+        # Confirms with the user if directory is holding proper files
         print("For this script to properly upload videos, please make sure the '/Upload' folder contains only one video file (.mp4) and one thumbnail file (.jpg).")
-        answer = input("Would you like to continue (Y/N)? ")
-        if answer.lower().startswith("n"):
-            exit()
+        # answer = input("Would you like to continue (Y/N)? ")
+        # if answer.lower().startswith("n"):
+        #     exit()
         
         # Based on the playlist, choose how to title the video & which description to add.
         playlist = input("Enter which playlist to upload to (e.g. Sermons, Worship, or leave blank for none):\n")
-        sermon_speaker = None
         if playlist.lower().startswith("s"):
+            sermon_speaker = None
             sermon_speaker = input("Please list the speaker(s) of this sermon:\n")
+
+        privacy_status = input("Please indicate whether you'd like to upload this video as private, public, or unlisted:\n")
+        privacy_status = privacy_status.lower()
 
         # Pulls the files from the directory for upload.
         # Based on the playlist, choose how to title the video & which description to add.
         # Determine title, which description file to read from, and the ID of the playlist.
-        path = "/Users/thiago/Developer/Projects/youtube-uploader/Upload/"
+        path = os.getcwd() + "/Upload/"
         video_data = CreateVideoData(path, playlist, sermon_speaker)
 
         # Get credentials and create an API client
@@ -123,7 +126,7 @@ def main():
                     "description": video_data["description"],
                 },
                 "status": {
-                    "privacyStatus": "public",
+                    "privacyStatus": privacy_status,
                     "selfDeclaredMadeForKids": False
                 }
             },
